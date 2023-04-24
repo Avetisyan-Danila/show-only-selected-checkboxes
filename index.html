@@ -7,20 +7,43 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         .table {
             display: flex;
             flex-direction: column;
             gap: 5px;
+
+            height: 160px;
         }
 
         .checkbox {
-            width: 12px;
-            height: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 24px;
+            height: 24px;
+            border: 2px solid black;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .checkbox.active {
+            border-color: red;
+        }
+
+        .show-active {
+            padding: 5px;
+
+            text-decoration: none;
+            color: #000000;
             border: 2px solid black;
             border-radius: 4px;
         }
 
-        .checkbox.active {
+        .show-active.active {
             border-color: red;
         }
     </style>
@@ -28,43 +51,34 @@
 <body>
 
 <div class="table">
-    <div class="checkbox"></div>
-    <div class="checkbox"></div>
-    <div class="checkbox"></div>
-    <div class="checkbox"></div>
-    <div class="checkbox"></div>
+    <div class="checkbox">1</div>
+    <div class="checkbox">2</div>
+    <div class="checkbox">3</div>
+    <div class="checkbox">4</div>
+    <div class="checkbox">5</div>
 </div>
 <br>
 <a href="#" class="show-active">Показать только выбранные</a>
 
 <script>
     const table = document.querySelector('.table');
-    const checkboxes = table.querySelectorAll('.checkbox');
+    const checkboxes = Array.from(table.querySelectorAll('.checkbox'));
     const showActiveButton = document.querySelector('.show-active');
 
-    checkboxes.forEach((c) => {
-        c.addEventListener('click', () => {
-            c.classList.toggle('active')
-        })
+    table.addEventListener('click', (e) => {
+        e.target.classList.toggle('active');
     })
 
     showActiveButton.addEventListener('click', () => {
         showActiveButton.classList.toggle('active');
 
         if (showActiveButton.classList.contains('active')) {
-            const activeCheckboxes = table.querySelectorAll('.checkbox.active');
+            const activeCheckboxes = checkboxes.filter((c) => c.classList.contains('active'));
 
-            table.innerHTML = null;
-
-            activeCheckboxes.forEach((c) => {
-                table.append(c)
-            })
+            table.innerHTML = '';
+            table.append(...activeCheckboxes);
         } else {
-            table.innerHTML = null;
-
-            checkboxes.forEach((c) => {
-                table.append(c)
-            })
+            table.append(...checkboxes);
         }
     })
 </script>

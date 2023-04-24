@@ -65,9 +65,7 @@
     const checkboxes = Array.from(table.querySelectorAll('.checkbox'));
     const showActiveButton = document.querySelector('.show-active');
 
-    table.addEventListener('click', (e) => {
-        e.target.classList.toggle('active');
-    })
+    table.addEventListener('click', (e) => e.target.classList.toggle('active'));
 
     showActiveButton.addEventListener('click', () => {
         showActiveButton.classList.toggle('active');
@@ -78,6 +76,7 @@
             table.innerHTML = '';
             table.append(...activeCheckboxes);
         } else {
+            checkboxes.forEach((c) => c.classList.remove('active'))
             table.append(...checkboxes);
         }
     })
